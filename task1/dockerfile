@@ -1,0 +1,23 @@
+FROM ubuntu:latest
+
+# Update system
+RUN apt-get update
+RUN apt-get upgrade -y
+
+# Install Python and pip
+RUN apt-get install -y python3 python3-pip
+
+# Fix EXTERNALLY-MANAGED error (important!)
+RUN rm /usr/lib/python*/EXTERNALLY-MANAGED
+
+# Install Flask (must be pip3)
+RUN pip3 install flask
+
+# Set working directory
+WORKDIR /app
+
+# Copy API file into container
+COPY api.py /app/api.py
+
+# Run the Flask server
+CMD ["python3", "api.py"]
